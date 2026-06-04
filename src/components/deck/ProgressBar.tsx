@@ -9,8 +9,8 @@ export function ProgressBar({ current, total }: { current: number; total: number
         />
       </div>
       <div
-        className="absolute right-6 top-3 text-xs font-semibold tracking-wide"
-        style={{ color: "var(--bms-purple)" }}
+        className="absolute right-6 top-4 text-base md:text-lg font-bold tracking-wide"
+        style={{ color: "#ffffff" }}
       >
         Step {current} of {total}
       </div>
