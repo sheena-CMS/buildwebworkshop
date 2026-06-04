@@ -13,6 +13,8 @@ import { Slide08 } from "./slides/Slide08";
 import { Slide09 } from "./slides/Slide09";
 import { Slide10 } from "./slides/Slide10";
 import { Slide11 } from "./slides/Slide11";
+import { Slide12 } from "./slides/Slide12";
+import { Slide13 } from "./slides/Slide13";
 import { SlideStopCheck } from "./slides/SlideStopCheck";
 import { SlideToolFlow } from "./slides/SlideToolFlow";
 
@@ -35,6 +37,8 @@ const SLIDES: SlideDef[] = [
   { bg: "white", Component: Slide09 },
   { bg: "dark", Component: Slide10 },
   { bg: "white", Component: Slide11 },
+  { bg: "white", Component: Slide12 },
+  { bg: "dark", Component: Slide13 },
 ];
 
 const TOTAL = SLIDES.length;
