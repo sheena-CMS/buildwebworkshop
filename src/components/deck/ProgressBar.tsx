@@ -1,4 +1,12 @@
-export function ProgressBar({ current, total }: { current: number; total: number }) {
+export function ProgressBar({
+  current,
+  total,
+  isDark = true,
+}: {
+  current: number;
+  total: number;
+  isDark?: boolean;
+}) {
   const pct = (current / total) * 100;
   return (
     <div className="fixed top-0 left-0 right-0 z-40">
@@ -10,10 +18,11 @@ export function ProgressBar({ current, total }: { current: number; total: number
       </div>
       <div
         className="absolute right-6 top-4 text-base md:text-lg font-bold tracking-wide"
-        style={{ color: "#ffffff" }}
+        style={{ color: isDark ? "#ffffff" : "#1d1d1f" }}
       >
         Step {current} of {total}
       </div>
     </div>
   );
 }
+
