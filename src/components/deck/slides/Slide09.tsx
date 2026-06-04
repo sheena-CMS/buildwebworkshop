@@ -4,8 +4,15 @@ import { RescuePrompt } from "../RescuePrompt";
 export function Slide09(_: { goNext: () => void }) {
   return (
     <div className="flex flex-col gap-8">
-      <h2 className="text-3xl md:text-5xl font-black tracking-tight leading-tight">
-        30 minutes in — drop your updated link in the chat.
+      <div className="inline-flex items-center gap-3 bg-[var(--bms-pink)] text-white px-6 py-3 rounded-full">
+        <span className="text-2xl">🏁</span>
+        <span className="text-3xl md:text-5xl font-bold tracking-tight" style={{ fontFamily: '"Fredoka", ui-sans-serif, system-ui, sans-serif' }}>
+          Check Point 2
+        </span>
+      </div>
+
+      <h2 className="text-2xl md:text-3xl font-black tracking-tight leading-tight">
+        Drop your updated link in the chat.
       </h2>
 
       <Checklist
