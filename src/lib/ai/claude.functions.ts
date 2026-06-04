@@ -115,7 +115,7 @@ Build requirements:
     }
 
     try {
-      const res = await fetch("https://wandering-bonus-0e54.sheena-47c.workers.dev", {
+      const res = await fetch("https://build-made-simple.sheena-47c.workers.dev/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
