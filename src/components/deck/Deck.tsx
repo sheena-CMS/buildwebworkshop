@@ -23,9 +23,9 @@ type SlideDef = {
 
 const SLIDES: SlideDef[] = [
   { bg: "dark", Component: Slide01 },
+  { bg: "white", Component: Slide02 },
   { bg: "grey", Component: SlideStopCheck },
   { bg: "dark", Component: SlideToolFlow },
-  { bg: "white", Component: Slide02 },
   { bg: "dark", Component: Slide03 },
   { bg: "white", Component: Slide04 },
   { bg: "dark", Component: Slide05 },
