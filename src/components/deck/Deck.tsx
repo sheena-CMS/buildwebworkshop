@@ -45,6 +45,7 @@ export function Deck() {
     [],
   );
   const goBack = useCallback(() => setIndex((i) => Math.max(0, i - 1)), []);
+  const goStart = useCallback(() => setIndex(0), []);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -95,8 +96,10 @@ export function Deck() {
       <NavControls
         onBack={goBack}
         onNext={goNext}
+        onStart={goStart}
         showBack={index > 0}
         showNext={index < TOTAL - 1}
+        showStart={index > 0}
       />
     </div>
   );
