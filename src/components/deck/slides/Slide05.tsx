@@ -64,11 +64,14 @@ export function Slide05(_: { goNext: () => void }) {
         >
           {loading ? "Thinking..." : "Check my idea ↗"}
         </button>
+        <p className="mt-3 text-sm italic" style={{ color: "#5e5ce6" }}>
+          Claude will review your idea and tell you if it's specific enough to build.
+        </p>
       </div>
 
       <AIResponseBox loading={loading} text={text} error={error} />
 
-      <p className="text-sm opacity-60">
+      <p className="text-xl md:text-2xl font-bold" style={{ color: "#FF4DA6" }}>
         Don't skip this. A vague idea = a broken build.
       </p>
     </div>
