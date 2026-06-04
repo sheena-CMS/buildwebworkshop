@@ -27,13 +27,24 @@ const DATA_OPTIONS = [
   { value: "Yes — user logins too", label: "Yes — user logins too" },
 ];
 
+const PALETTES = [
+  { name: "Dark & Premium", colors: ["#1d1d1f", "#ffffff", "#FF4DA6"] as const },
+  { name: "Clean & Bright", colors: ["#ffffff", "#f5f5f7", "#0071e3"] as const },
+  { name: "Soft & Natural", colors: ["#f0ebe3", "#ffffff", "#6a9e72"] as const },
+  { name: "Corporate & Trust", colors: ["#003087", "#ffffff", "#0071ce"] as const },
+  { name: "Bold & Energetic", colors: ["#ff6b00", "#1d1d1f", "#ffcc00"] as const },
+  { name: "Minimal & White", colors: ["#ffffff", "#f5f5f7", "#333333"] as const },
+];
+
 export function Slide06(_: { goNext: () => void }) {
   const ask = useServerFn(askClaude);
 
   const [idea, setIdea] = useState("");
-  const [primaryColor, setPrimaryColor] = useState("#000000");
-  const [secondaryColor, setSecondaryColor] = useState("#ffffff");
-  const [accentColor, setAccentColor] = useState("#FF4DA6");
+  const [selectedPalette, setSelectedPalette] = useState<string>(PALETTES[0].name);
+  const [useCustom, setUseCustom] = useState(false);
+  const [customPrimary, setCustomPrimary] = useState("");
+  const [customSecondary, setCustomSecondary] = useState("");
+  const [customAccent, setCustomAccent] = useState("");
   const [fontStyle, setFontStyle] = useState(FONT_OPTIONS[0]);
   const [tone, setTone] = useState(TONE_OPTIONS[0]);
   const [vibe, setVibe] = useState(VIBE_OPTIONS[0]);
@@ -45,6 +56,21 @@ export function Slide06(_: { goNext: () => void }) {
   const [error, setError] = useState<string | null>(null);
   const [built, setBuilt] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+
+  const isHex = (v: string) => /^#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})$/.test(v);
+  const palette = PALETTES.find((p) => p.name === selectedPalette) ?? PALETTES[0];
+  const resolvedColors = (() => {
+    if (useCustom) {
+      return [
+        isHex(customPrimary) ? customPrimary : palette.colors[0],
+        isHex(customSecondary) ? customSecondary : palette.colors[1],
+        isHex(customAccent) ? customAccent : palette.colors[2],
+      ] as const;
+    }
+    return palette.colors;
+  })();
+  const [primaryColor, secondaryColor, accentColor] = resolvedColors;
+
 
   const handleBuild = async () => {
     if (!idea.trim()) {
@@ -130,25 +156,55 @@ export function Slide06(_: { goNext: () => void }) {
       {/* Section 2 */}
       <section className="flex flex-col gap-4">
         <h3 className="text-2xl font-bold">2. Your style</h3>
-        <div className="grid md:grid-cols-2 gap-4">
-          <ColorField
-            label="Primary colour"
-            value={primaryColor}
-            onChange={setPrimaryColor}
-            placeholder="#000000"
-          />
-          <ColorField
-            label="Secondary colour"
-            value={secondaryColor}
-            onChange={setSecondaryColor}
-            placeholder="#ffffff"
-          />
-          <ColorField
-            label="Accent colour"
-            value={accentColor}
-            onChange={setAccentColor}
-            placeholder="#FF4DA6"
-          />
+
+        <div className="flex flex-col gap-3">
+          <span className={labelClass}>Pick your colour palette</span>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            {PALETTES.map((p) => {
+              const selected = !useCustom && selectedPalette === p.name;
+              return (
+                <button
+                  key={p.name}
+                  type="button"
+                  onClick={() => {
+                    setSelectedPalette(p.name);
+                    setUseCustom(false);
+                  }}
+                  className="text-left rounded-lg p-4 border-2 bg-white transition-all"
+                  style={{
+                    borderColor: selected ? "var(--bms-pink)" : "rgba(0,0,0,0.15)",
+                  }}
+                >
+                  <div className="flex gap-1 mb-3 h-10 rounded overflow-hidden border border-black/10">
+                    {p.colors.map((c, i) => (
+                      <div key={i} className="flex-1" style={{ backgroundColor: c }} />
+                    ))}
+                  </div>
+                  <span className="text-sm font-semibold">{p.name}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setUseCustom((v) => !v)}
+            className="self-start text-sm font-semibold underline"
+            style={{ color: "var(--bms-pink)" }}
+          >
+            {useCustom ? "Use a palette instead ↑" : "Use my own colours instead ↓"}
+          </button>
+
+          {useCustom && (
+            <div className="grid md:grid-cols-3 gap-3">
+              <CustomHex label="Primary colour (hex)" value={customPrimary} onChange={setCustomPrimary} placeholder="#1d1d1f" />
+              <CustomHex label="Secondary colour (hex)" value={customSecondary} onChange={setCustomSecondary} placeholder="#ffffff" />
+              <CustomHex label="Accent colour (hex)" value={customAccent} onChange={setCustomAccent} placeholder="#FF4DA6" />
+            </div>
+          )}
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-4">
           <SelectField
             label="Font style"
             value={fontStyle}
@@ -169,6 +225,7 @@ export function Slide06(_: { goNext: () => void }) {
           />
         </div>
       </section>
+
 
       {/* Section 3 */}
       <section className="flex flex-col gap-4">
@@ -284,6 +341,38 @@ export function Slide06(_: { goNext: () => void }) {
         </div>
       )}
     </div>
+  );
+}
+
+function CustomHex({
+  label,
+  value,
+  onChange,
+  placeholder,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  placeholder: string;
+}) {
+  const isValidHex = /^#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})$/.test(value);
+  return (
+    <label className="flex flex-col gap-2">
+      <span className="text-sm font-semibold opacity-80">{label}</span>
+      <div className="flex items-center gap-2 rounded-md border border-black/15 bg-white px-3 py-2 focus-within:border-[var(--bms-pink)]">
+        <span
+          className="h-7 w-7 rounded border border-black/10 shrink-0"
+          style={{ backgroundColor: isValidHex ? value : "transparent" }}
+        />
+        <input
+          type="text"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={placeholder}
+          className="flex-1 bg-transparent outline-none text-base font-mono"
+        />
+      </div>
+    </label>
   );
 }
 
