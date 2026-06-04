@@ -13,6 +13,7 @@ import { Slide08 } from "./slides/Slide08";
 import { Slide09 } from "./slides/Slide09";
 import { Slide10 } from "./slides/Slide10";
 import { Slide11 } from "./slides/Slide11";
+import { SlideStopCheck } from "./slides/SlideStopCheck";
 
 type SlideDef = {
   bg: "dark" | "white" | "grey";
@@ -21,6 +22,7 @@ type SlideDef = {
 
 const SLIDES: SlideDef[] = [
   { bg: "dark", Component: Slide01 },
+  { bg: "grey", Component: SlideStopCheck },
   { bg: "white", Component: Slide02 },
   { bg: "dark", Component: Slide03 },
   { bg: "white", Component: Slide04 },
