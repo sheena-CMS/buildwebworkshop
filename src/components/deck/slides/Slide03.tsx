@@ -1,4 +1,4 @@
-import { ScreenshotPlaceholder } from "../ScreenshotPlaceholder";
+import plansAndCredits from "@/assets/plans-and-credits.png.asset.json";
 
 const STEPS = [
   "Go to lovable.dev",
@@ -28,7 +28,7 @@ export function Slide03(_: { goNext: () => void }) {
         ))}
       </ol>
 
-      <ScreenshotPlaceholder label="Lovable plans page" dark />
+      <img src={plansAndCredits.url} alt="Lovable Plans & Credits settings page" className="w-full rounded-lg border border-white/10" />
     </div>
   );
 }
