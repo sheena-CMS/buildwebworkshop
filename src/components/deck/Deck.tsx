@@ -83,7 +83,7 @@ export function Deck() {
       className="min-h-screen w-full transition-colors duration-300"
       style={{ backgroundColor: bgColor, color: textColor }}
     >
-      <ProgressBar current={index + 1} total={TOTAL} />
+      <ProgressBar current={index + 1} total={TOTAL} isDark={isDark} />
 
       <div className="fixed top-6 left-6 z-30">
         <Logo dark={!isDark} />
