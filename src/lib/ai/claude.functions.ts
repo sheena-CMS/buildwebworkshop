@@ -21,6 +21,26 @@ Keep every response to 3 sentences maximum. Be warm, encouraging, and brief.`;
 
 const DEMO_SYSTEM = `Write a warm, confident 60-second demo script for a live workshop presentation. Sound like a real person presenting something they built, not a sales pitch. Three short paragraphs maximum.`;
 
+const LOVABLE_PROMPT_SYSTEM = `You are an expert Lovable prompt writer. Your job is to take the user inputs below and write a single, detailed, ready-to-paste Lovable prompt that will produce a great first build in Plan mode.
+
+The prompt must include:
+
+What is being built and who it is for
+
+The problem it solves
+
+The pages and screens needed
+
+The visual style: colours, fonts, tone, and vibe
+
+The technical requirements: whether data storage or logins are needed
+
+Clear constraints — what it should NOT do
+
+End with: Ask me clarifying questions, then propose the minimum version we can build and publish in 90 minutes.
+
+Write the prompt in second person as if speaking directly to Lovable. Be specific and detailed. Do not add any preamble or explanation — output the prompt only, ready to copy and paste.`;
+
 const MessageSchema = z.object({
   role: z.enum(["user", "assistant"]),
   content: z.string().min(1).max(4000),
@@ -37,6 +57,19 @@ const InputSchema = z.discriminatedUnion("kind", [
     help: z.string().min(1).max(500),
     improve: z.string().min(1).max(500),
   }),
+  z.object({
+    kind: z.literal("lovablePrompt"),
+    idea: z.string().min(1).max(4000),
+    primaryColor: z.string().max(20),
+    secondaryColor: z.string().max(20),
+    accentColor: z.string().max(20),
+    fontStyle: z.string().max(100),
+    tone: z.string().max(100),
+    vibe: z.string().max(100),
+    pages: z.string().max(2000),
+    dataNeeds: z.string().max(200),
+    notDo: z.string().max(2000),
+  }),
 ]);
 
 export const askClaude = createServerFn({ method: "POST" })
@@ -44,16 +77,39 @@ export const askClaude = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     let system = "";
     let messages: Array<{ role: "user" | "assistant"; content: string }> = [];
+    let maxTokens = 500;
 
     if (data.kind === "idea") {
       system = IDEA_SYSTEM;
       messages = data.messages;
-    } else {
+    } else if (data.kind === "demo") {
       system = DEMO_SYSTEM;
       messages = [
         {
           role: "user",
           content: `Who it is for: ${data.audience}\nWhat it helps them do: ${data.help}\nWhat they would improve next: ${data.improve}`,
+        },
+      ];
+    } else {
+      system = LOVABLE_PROMPT_SYSTEM;
+      maxTokens = 1500;
+      messages = [
+        {
+          role: "user",
+          content: `Idea sentence: ${data.idea}
+
+Visual style:
+- Primary colour: ${data.primaryColor || "(not specified)"}
+- Secondary colour: ${data.secondaryColor || "(not specified)"}
+- Accent colour: ${data.accentColor || "(not specified)"}
+- Font style: ${data.fontStyle || "(not specified)"}
+- Tone of voice: ${data.tone || "(not specified)"}
+- Overall vibe: ${data.vibe || "(not specified)"}
+
+Build requirements:
+- Pages or screens needed: ${data.pages || "(not specified)"}
+- Data storage / user logins: ${data.dataNeeds}
+- What it should NOT do: ${data.notDo || "(no specific constraints)"}`,
         },
       ];
     }
@@ -66,7 +122,7 @@ export const askClaude = createServerFn({ method: "POST" })
         },
         body: JSON.stringify({
           model: "claude-sonnet-4-5",
-          max_tokens: 500,
+          max_tokens: maxTokens,
           system,
           messages,
         }),
