@@ -1,4 +1,4 @@
-import { ScreenshotPlaceholder } from "../ScreenshotPlaceholder";
+import plansAndCredits from "@/assets/plans-and-credits.png.asset.json";
 
 const STEPS = [
   "Go to lovable.dev",
