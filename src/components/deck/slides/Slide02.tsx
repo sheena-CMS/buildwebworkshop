@@ -32,7 +32,7 @@ export function Slide02(_: { goNext: () => void }) {
         ))}
       </div>
 
-      <p className="text-xl md:text-2xl font-semibold opacity-80">
+      <p className="text-4xl md:text-6xl font-black tracking-tight leading-tight">
         No coding. No agency. No waiting.
       </p>
     </div>

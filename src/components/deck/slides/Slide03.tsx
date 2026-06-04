@@ -4,8 +4,7 @@ const STEPS = [
   "Go to lovable.dev",
   "Create your account",
   "Go to Settings → Plans & Credits",
-  "Select Pro Plan 1 (100 credits) — choose monthly plan",
-  "Complete checkout",
+  "Select a plan and complete checkout.",
 ];
 
 export function Slide03(_: { goNext: () => void }) {
