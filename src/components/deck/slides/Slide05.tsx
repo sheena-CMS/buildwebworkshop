@@ -59,12 +59,11 @@ export function Slide05(_: { goNext: () => void }) {
         <button
           onClick={handleCheck}
           disabled={loading || !idea.trim()}
-          className="px-7 py-3.5 rounded-md text-base font-semibold text-white disabled:opacity-50"
-          style={{ backgroundColor: "var(--bms-pink)" }}
+          className="px-10 py-5 rounded-md text-lg md:text-xl font-bold text-white bg-bms-pink disabled:opacity-50"
         >
           {loading ? "Thinking..." : "Check my idea ↗"}
         </button>
-        <p className="mt-3 text-sm italic" style={{ color: "#5e5ce6" }}>
+        <p className="mt-3 text-lg text-white">
           Claude will review your idea and tell you if it's specific enough to build.
         </p>
       </div>
