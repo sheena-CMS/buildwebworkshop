@@ -1,24 +1,23 @@
 export function Slide01({ goNext }: { goNext: () => void }) {
   return (
-    <div className="flex flex-col items-start gap-10">
+    <div className="flex flex-col items-start gap-8">
       <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-[1.05]">
         Build a Website or
         <br />
         Web Application. Today.
       </h1>
-      <p className="text-xl md:text-2xl opacity-80 max-w-3xl">
+      <p className="text-base md:text-lg opacity-80 whitespace-nowrap">
         A 90-minute live workshop with Sheena Karim — Founder, Change Made Simple
       </p>
-
-      <div
-        className="w-full max-w-3xl aspect-video rounded-lg border-2 border-dashed flex items-center justify-center text-sm font-mono"
-        style={{
-          borderColor: "rgba(255,255,255,0.2)",
-          color: "rgba(255,255,255,0.5)",
-        }}
+      <a
+        href="https://www.changemadesimple.com.au"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-base md:text-lg font-semibold underline underline-offset-4"
+        style={{ color: "#FF4DA6" }}
       >
-        [YouTube embed: Sheena intro video]
-      </div>
+        www.changemadesimple.com.au
+      </a>
 
       <button
         onClick={goNext}
