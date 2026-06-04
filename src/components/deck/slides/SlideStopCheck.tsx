@@ -1,5 +1,6 @@
 import { Check, OctagonAlert } from "lucide-react";
-import { ScreenshotPlaceholder } from "../ScreenshotPlaceholder";
+import screenSetup from "@/assets/screen-setup.svg.asset.json";
+
 
 
 const PINK = "#FF4DA6";
@@ -66,7 +67,11 @@ export function SlideStopCheck() {
         ))}
       </ul>
 
-      <ScreenshotPlaceholder label="Upload: screen setup diagram" />
+      <img
+        src={screenSetup.url}
+        alt="Workshop screen setup: laptop with Zoom on the left, large monitor split between the Build Made Simple course and Lovable on the right"
+        className="w-full max-w-3xl rounded-lg"
+      />
 
       <p className="text-2xl md:text-3xl font-black tracking-tight pt-2">
         Not ready? Pause here. Sort it. Then come back.
