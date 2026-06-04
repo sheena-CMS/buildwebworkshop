@@ -21,11 +21,6 @@ const InputSchema = z.discriminatedUnion("kind", [
 export const askClaude = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => InputSchema.parse(input))
   .handler(async ({ data }) => {
-    const apiKey = process.env.ANTHROPIC_API_KEY;
-    if (!apiKey) {
-      return { text: "", error: "ANTHROPIC_API_KEY is not configured." };
-    }
-
     let system = "";
     let userMessage = "";
 
@@ -38,12 +33,10 @@ export const askClaude = createServerFn({ method: "POST" })
     }
 
     try {
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
+      const res = await fetch("https://wandering-bonus-0e54.sheena-47c.workers.dev", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-api-key": apiKey,
-          "anthropic-version": "2023-06-01",
         },
         body: JSON.stringify({
           model: "claude-sonnet-4-20250514",
@@ -55,8 +48,8 @@ export const askClaude = createServerFn({ method: "POST" })
 
       if (!res.ok) {
         const errText = await res.text();
-        console.error("Claude API error:", res.status, errText);
-        return { text: "", error: `Claude API error (${res.status}). Try again.` };
+        console.error("AI API error:", res.status, errText);
+        return { text: "", error: `AI API error (${res.status}). Try again.` };
       }
 
       const json = (await res.json()) as {
@@ -70,7 +63,7 @@ export const askClaude = createServerFn({ method: "POST" })
           .trim() ?? "";
       return { text, error: null as string | null };
     } catch (err) {
-      console.error("Claude request failed:", err);
-      return { text: "", error: "Network error talking to Claude." };
+      console.error("AI request failed:", err);
+      return { text: "", error: "Network error talking to AI." };
     }
   });
