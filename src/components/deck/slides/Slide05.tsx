@@ -3,26 +3,57 @@ import { useServerFn } from "@tanstack/react-start";
 import { askClaude } from "@/lib/ai/claude.functions";
 import { AIResponseBox } from "../AIResponseBox";
 
+type Msg = { role: "user" | "assistant"; content: string };
+
+const MARKER = "HERE IS YOUR IDEA SENTENCE:";
+
 export function Slide05(_: { goNext: () => void }) {
   const ask = useServerFn(askClaude);
-  const [idea, setIdea] = useState("");
+  const [input, setInput] = useState("");
+  const [messages, setMessages] = useState<Msg[]>([]);
   const [loading, setLoading] = useState(false);
-  const [text, setText] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
 
-  const handleCheck = async () => {
-    if (!idea.trim()) return;
+  const latestAssistant = [...messages].reverse().find((m) => m.role === "assistant")?.content ?? "";
+  const ideaSentence = (() => {
+    const idx = latestAssistant.indexOf(MARKER);
+    if (idx === -1) return null;
+    const after = latestAssistant.slice(idx + MARKER.length).trim();
+    // Take first sentence/line as the idea sentence
+    const line = after.split(/\n/)[0]?.trim() ?? "";
+    return line || null;
+  })();
+
+  const handleSend = async () => {
+    if (!input.trim() || loading) return;
+    const next: Msg[] = [...messages, { role: "user", content: input.trim() }];
+    setMessages(next);
+    setInput("");
     setLoading(true);
-    setText("");
     setError(null);
     try {
-      const res = await ask({ data: { kind: "idea", idea } });
-      setText(res.text);
-      setError(res.error);
-    } catch (e) {
+      const res = await ask({ data: { kind: "idea", messages: next } });
+      if (res.error) {
+        setError(res.error);
+      } else {
+        setMessages([...next, { role: "assistant", content: res.text }]);
+      }
+    } catch {
       setError("Something went wrong. Try again.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleCopy = async () => {
+    if (!ideaSentence) return;
+    try {
+      await navigator.clipboard.writeText(ideaSentence);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // ignore
     }
   };
 
@@ -32,47 +63,85 @@ export function Slide05(_: { goNext: () => void }) {
         Before you touch Lovable — nail your idea.
       </h2>
 
-      <div
+      <p
         className="rounded-lg p-8 text-xl md:text-2xl leading-relaxed font-medium"
         style={{ backgroundColor: "rgba(255,255,255,0.06)" }}
       >
-        I am building a website or web application for{" "}
-        <span style={{ color: "var(--bms-pink)" }}>[specific person]</span> that
-        helps them{" "}
-        <span style={{ color: "var(--bms-pink)" }}>[do this thing]</span> so
-        they don't have to{" "}
-        <span style={{ color: "var(--bms-pink)" }}>
-          [painful thing they currently do]
-        </span>
-        .
-      </div>
+        Don't worry about getting it perfect. Just tell us roughly what you want to build — Claude will help you shape it into something buildable.
+      </p>
+
+      {messages.length > 0 && (
+        <div className="flex flex-col gap-4">
+          {messages.map((m, i) => (
+            <div
+              key={i}
+              className="rounded-lg p-5 text-base md:text-lg leading-relaxed whitespace-pre-wrap"
+              style={
+                m.role === "user"
+                  ? { backgroundColor: "rgba(255,255,255,0.08)", borderLeft: "4px solid var(--bms-pink)" }
+                  : { backgroundColor: "rgba(94,92,230,0.10)", borderLeft: "4px solid var(--bms-purple)" }
+              }
+            >
+              <div className="text-xs uppercase tracking-wider opacity-60 mb-2">
+                {m.role === "user" ? "You" : "Claude"}
+              </div>
+              {m.content}
+            </div>
+          ))}
+        </div>
+      )}
 
       <textarea
-        value={idea}
-        onChange={(e) => setIdea(e.target.value)}
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
         rows={4}
-        placeholder="Type your idea sentence here..."
+        placeholder="e.g. I want to build something for small businesses to manage their receipts..."
         className="w-full rounded-lg p-5 text-lg bg-white/5 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:border-[var(--bms-pink)]"
       />
 
       <div>
         <button
-          onClick={handleCheck}
-          disabled={loading || !idea.trim()}
+          onClick={handleSend}
+          disabled={loading || !input.trim()}
           className="px-10 py-5 rounded-md text-lg md:text-xl font-bold text-white bg-bms-pink disabled:opacity-50"
         >
-          {loading ? "Thinking..." : "Check my idea ↗"}
+          {loading ? "Thinking..." : "Refine my idea ↗"}
         </button>
         <p className="mt-3 text-lg text-white">
-          Claude will review your idea and tell you if it's specific enough to build.
+          Claude will ask you one question at a time to sharpen your idea — then write your finished idea sentence for you.
         </p>
       </div>
 
-      <AIResponseBox loading={loading} text={text} error={error} />
+      {loading && <AIResponseBox loading={true} text="" error={null} />}
+      {error && <AIResponseBox loading={false} text="" error={error} />}
 
-      <p className="text-xl md:text-2xl font-bold" style={{ color: "#FF4DA6" }}>
-        Don't skip this. A vague idea = a broken build.
-      </p>
+      {ideaSentence && (
+        <div className="flex flex-col gap-4">
+          <div
+            className="rounded-lg p-6"
+            style={{
+              backgroundColor: "#ffffff",
+              color: "#1d1d1f",
+              border: "3px solid #FF4DA6",
+            }}
+          >
+            <div className="text-xs uppercase tracking-wider font-bold mb-2" style={{ color: "#FF4DA6" }}>
+              Your idea sentence
+            </div>
+            <p className="text-lg md:text-xl font-semibold leading-relaxed">{ideaSentence}</p>
+          </div>
+          <button
+            onClick={handleCopy}
+            className="self-start px-8 py-4 rounded-md text-base md:text-lg font-bold text-white"
+            style={{ backgroundColor: "#FF4DA6" }}
+          >
+            {copied ? "Copied ✓" : "Copy my idea sentence"}
+          </button>
+          <p className="text-lg md:text-xl font-bold" style={{ color: "#34c759" }}>
+            ✅ You're ready. Move to the next step.
+          </p>
+        </div>
+      )}
     </div>
   );
 }
