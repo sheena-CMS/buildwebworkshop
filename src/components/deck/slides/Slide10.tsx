@@ -45,7 +45,8 @@ export function Slide10(_: { goNext: () => void }) {
         className="text-xl md:text-2xl font-black"
         style={{ color: "var(--bms-pink)" }}
       >
-        If it works on the live URL — you've shipped. Well done.
+        If it works on the live URL — you're{" "}
+        <span className="text-green-500">live. Well done.</span>
       </p>
     </div>
   );
