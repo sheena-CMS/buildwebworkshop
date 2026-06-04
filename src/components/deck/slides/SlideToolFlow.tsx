@@ -1,4 +1,4 @@
-import { ScreenshotPlaceholder } from "../ScreenshotPlaceholder";
+import flowDiagram from "@/assets/claude-lovable-flow.svg.asset.json";
 
 const PURPLE = "#5e5ce6";
 const PINK = "#FF4DA6";
@@ -51,9 +51,10 @@ export function SlideToolFlow(_: { goNext: () => void }) {
         </div>
       </div>
 
-      <ScreenshotPlaceholder
-        label="Upload: Claude and Lovable flow diagram"
-        dark
+      <img
+        src={flowDiagram.url}
+        alt="Diagram showing how the course website connects to Claude via the Build Made Simple proxy, and how participants take their prompt to Lovable"
+        className="w-full rounded-lg bg-white p-4"
       />
 
       <p
