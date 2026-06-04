@@ -68,7 +68,7 @@ export const askClaude = createServerFn({ method: "POST" })
           model: "claude-sonnet-4-5",
           max_tokens: 500,
           system,
-          messages: [{ role: "user", content: userMessage }],
+          messages,
         }),
       });
 
