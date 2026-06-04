@@ -1,4 +1,6 @@
 import { Check, OctagonAlert } from "lucide-react";
+import { ScreenshotPlaceholder } from "../ScreenshotPlaceholder";
+
 
 const PINK = "#FF4DA6";
 
@@ -16,8 +18,8 @@ const items = [
     body: "We'll use Sheena's Claude API for today's workshop. In future you'll need your own — create a free account at console.anthropic.com when you're ready.",
   },
   {
-    title: "Two screens or a large monitor",
-    body: "You'll need one screen for this workshop and one for Lovable. No two screens? Open two windows side by side on one large monitor. A laptop alone will be a squeeze.",
+    title: "Two screens",
+    body: "You need three windows open today. On your laptop: Zoom so you can see and hear the presenter. On your monitor: this course on the left, Lovable on the right. No second monitor? A large monitor with two windows side by side will work — a laptop screen alone will be a squeeze.",
   },
 ];
 
@@ -63,6 +65,8 @@ export function SlideStopCheck() {
           </li>
         ))}
       </ul>
+
+      <ScreenshotPlaceholder label="Upload: screen setup diagram" />
 
       <p className="text-2xl md:text-3xl font-black tracking-tight pt-2">
         Not ready? Pause here. Sort it. Then come back.
