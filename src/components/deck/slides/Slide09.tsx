@@ -11,18 +11,17 @@ export function Slide09(_: { goNext: () => void }) {
         </span>
       </div>
 
-      <h2 className="text-2xl md:text-3xl font-black tracking-tight leading-tight">
-        Drop your updated link in the chat.
-      </h2>
-
       <Checklist
         items={[
           "My user can complete the main action",
           "They see a result at the end",
           "I haven't added anything outside the main flow",
-          "I've dropped my updated link in the chat",
         ]}
       />
+
+      <p className="text-xl md:text-2xl font-black">
+        Stuck? Copy the rescue prompt. Paste it straight into Lovable.
+      </p>
 
       <RescuePrompt text="Stop adding new features. Help me simplify this into one clear flow that I can demo in 60 seconds." />
     </div>
