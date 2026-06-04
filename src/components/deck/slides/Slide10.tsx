@@ -4,11 +4,25 @@ import { RescuePrompt } from "../RescuePrompt";
 export function Slide10(_: { goNext: () => void }) {
   return (
     <div className="flex flex-col gap-6">
+      <div className="flex items-center gap-3">
+        <span
+          className="bg-[var(--bms-pink)] text-white px-6 py-3 rounded-full text-2xl md:text-3xl font-bold inline-block"
+          style={{ fontFamily: "Fredoka, sans-serif" }}
+        >
+          🏁 Check Point 3
+        </span>
+      </div>
+
       <h2 className="text-4xl md:text-6xl font-black tracking-tight leading-tight">
-        Does it do the thing?
+        Are you ready to go live?
       </h2>
+
       <p className="text-xl md:text-2xl opacity-80">
-        Test it like you're about to hand it to someone.
+        If yes, click Publish.
+      </p>
+
+      <p className="text-xl md:text-2xl opacity-80">
+        Then use the live URL to test.
       </p>
 
       <div className="mt-4">
@@ -20,6 +34,10 @@ export function Slide10(_: { goNext: () => void }) {
           ]}
         />
       </div>
+
+      <p className="text-xl md:text-2xl opacity-80">
+        Stuck? Copy the rescue prompt. Paste it straight into Lovable.
+      </p>
 
       <RescuePrompt text="Review this for publishing. Check the main flow, clarity, and any obvious broken states. Tell me only the critical fixes before I go live." />
 
