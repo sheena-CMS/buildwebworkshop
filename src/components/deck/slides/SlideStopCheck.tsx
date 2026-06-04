@@ -15,6 +15,10 @@ const items = [
     title: "A Claude account",
     body: "We'll use Sheena's Claude API for today's workshop. In future you'll need your own — create a free account at console.anthropic.com when you're ready.",
   },
+  {
+    title: "Two screens or a large monitor",
+    body: "You'll need one screen for this workshop and one for Lovable. No two screens? Open two windows side by side on one large monitor. A laptop alone will be a squeeze.",
+  },
 ];
 
 export function SlideStopCheck() {
@@ -35,7 +39,7 @@ export function SlideStopCheck() {
       </div>
 
       <p className="text-xl md:text-2xl opacity-80 max-w-3xl">
-        This workshop moves fast. Make sure you have these three things before
+        This workshop moves fast. Make sure you have these four things before
         we go any further.
       </p>
 
