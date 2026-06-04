@@ -77,14 +77,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "Build a Website Workshop" },
+      { name: "description", content: "Learn how to use Loveable and Claude to build a website" },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "Build a Website Workshop" },
+      { property: "og:description", content: "Learn how to use Loveable and Claude to build a website" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "Build a Website Workshop" },
+      { name: "twitter:description", content: "Learn how to use Loveable and Claude to build a website" },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/3d176a38-ac42-4f5e-b30b-9009f5a17665/id-preview-b21bd431--3448ba13-fbd5-4c41-94f8-5fbfe28c2074.lovable.app-1780557321086.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/3d176a38-ac42-4f5e-b30b-9009f5a17665/id-preview-b21bd431--3448ba13-fbd5-4c41-94f8-5fbfe28c2074.lovable.app-1780557321086.png" },
     ],
     links: [
       {
