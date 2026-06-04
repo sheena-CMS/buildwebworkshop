@@ -41,9 +41,26 @@ export function Slide11(_: { goNext: () => void }) {
 
   return (
     <div className="flex flex-col gap-8">
+      <div className="flex items-center gap-3">
+        <span
+          className="bg-[var(--bms-pink)] text-white px-6 py-3 rounded-full text-2xl md:text-3xl font-bold inline-block"
+          style={{ fontFamily: "Fredoka, sans-serif" }}
+        >
+          🏁 Finish Line
+        </span>
+      </div>
+
       <h2 className="text-4xl md:text-6xl font-black tracking-tight leading-tight">
-        You've got 60 seconds. Here's your script.
+        You're at the finish line!
       </h2>
+
+      <p className="text-xl md:text-2xl opacity-80">
+        You've got 60 seconds to demo.
+      </p>
+
+      <p className="text-xl md:text-2xl opacity-80">
+        Ask Claude to help write your script.
+      </p>
 
       <ol className="space-y-2">
         {LINES.map((l, i) => (
