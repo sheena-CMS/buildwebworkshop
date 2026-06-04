@@ -344,6 +344,38 @@ export function Slide06(_: { goNext: () => void }) {
   );
 }
 
+function CustomHex({
+  label,
+  value,
+  onChange,
+  placeholder,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  placeholder: string;
+}) {
+  const isValidHex = /^#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})$/.test(value);
+  return (
+    <label className="flex flex-col gap-2">
+      <span className="text-sm font-semibold opacity-80">{label}</span>
+      <div className="flex items-center gap-2 rounded-md border border-black/15 bg-white px-3 py-2 focus-within:border-[var(--bms-pink)]">
+        <span
+          className="h-7 w-7 rounded border border-black/10 shrink-0"
+          style={{ backgroundColor: isValidHex ? value : "transparent" }}
+        />
+        <input
+          type="text"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={placeholder}
+          className="flex-1 bg-transparent outline-none text-base font-mono"
+        />
+      </div>
+    </label>
+  );
+}
+
 function ColorField({
   label,
   value,
